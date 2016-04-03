@@ -9,11 +9,14 @@ func handler (conn net.Conn){
   defer conn.Close()
   
   buf := make([]byte, 1024)
+  
   len, err := conn.Read(buf)
-  if err != nil {
-		return
-	}
-	conn.Write(buf[:len])
+  if err != nil{
+	return
+  }
+
+  conn.Write(buf[:len])
+  
 }
 
 server := TCPserver.NewServer("localhost:8080", handler)
