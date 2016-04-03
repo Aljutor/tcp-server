@@ -2,7 +2,7 @@ package TCPserver
 
 import "net"
 
-// Server is basic game server
+// Server is simple tcp server
 type Server struct {
 	address  string
 	working  bool
@@ -10,8 +10,7 @@ type Server struct {
 	listner  net.Listener
 	handler  func(net.Conn)
 }
-
-//NewServer is method to create new Game Server
+// NewServer crates new tcp server, requred listning address in "ip:port" format and handler function. 
 func NewServer(address string, handler func(net.Conn)) *Server {
 	return &Server{
 		address:  address,
@@ -21,12 +20,12 @@ func NewServer(address string, handler func(net.Conn)) *Server {
 	}
 }
 
-// IsWork is function for checking server status
+// IsWork is function for checking server status true if server works
 func (S *Server) IsWork() bool {
 	return S.working
 }
 
-// IsStop is function for checking server status
+// IsStop is function for checking server status true if server stoped
 func (S *Server) IsStop() bool {
 	return !S.working
 }
@@ -58,6 +57,7 @@ func (S *Server) Stop() (err error) {
 
 }
 
+// Internal loop function for accepting new connections
 func (S *Server) acceptConn() {
 	for {
 		select {
