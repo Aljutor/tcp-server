@@ -19,7 +19,7 @@ func handler (conn net.Conn){
   
 }
 
-server := TCPserver.NewServer("localhost:8080", handler)
+server := TCPserver.NewServer(":8080", handler)
 
 server.Start()
 
