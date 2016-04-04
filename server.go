@@ -21,54 +21,54 @@ func NewServer(address string, handler func(net.Conn)) *Server {
 }
 
 // IsWork is function for checking server status true if server works
-func (S *Server) IsWork() bool {
-	return S.working
+func (s *Server) IsWork() bool {
+	return s.working
 }
 
 // IsStop is function for checking server status true if server stoped
-func (S *Server) IsStop() bool {
-	return !S.working
+func (s *Server) IsStop() bool {
+	return !s.working
 }
 
 // Start is function to start server
-func (S *Server) Start() (err error) {
-	if S.IsStop() {
-		S.listner, err = net.Listen("tcp", S.address)
+func (s *Server) Start() (err error) {
+	if s.IsStop() {
+		s.listner, err = net.Listen("tcp", s.address)
 		if err != nil {
 			return err
 		}
-		go S.acceptConn()
-		S.working = true
+		go s.acceptConn()
+		s.working = true
 	}
 	return nil
 }
 
 // Stop is function to stop server
-func (S *Server) Stop() (err error) {
-	if S.IsWork() {
-		err = S.listner.Close()
+func (s *Server) Stop() (err error) {
+	if s.IsWork() {
+		err = s.listner.Close()
 		if err != nil {
 			return err
 		}
-		S.stopChan <- struct{}{}
-		S.working = false
+		s.stopChan <- struct{}{}
+		s.working = false
 	}
 	return nil
 
 }
 
 // Internal loop function for accepting new connections
-func (S *Server) acceptConn() {
+func (s *Server) acceptConn() {
 	for {
 		select {
 		default:
-			conn, err := S.listner.Accept()
+			conn, err := s.listner.Accept()
 			if err != nil {
 				break
 			}
-			go S.handler(conn)
+			go s.handler(conn)
 
-		case <-S.stopChan:
+		case <-s.stopChan:
 			return
 		}
 	}
