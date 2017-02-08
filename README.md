@@ -24,5 +24,6 @@ func handler (conn net.Conn){
 server := TCPserver.NewServer(":8080", handler)
 
 server.Start()
+server.Stop()
 
 ```
