@@ -1,6 +1,8 @@
 # tcp-server
 Simple golang package for tcp-server
 
+With gracefull start/shutdown
+
 Example echo server:
 
 ``` Go
